@@ -7,7 +7,7 @@ create table "users"(
     "email" text not null,
     "password" text not null,
     "birthday" date not null,
-    "c_date" date not null
+    "c_date" date timestamptz
 );
 
 drop table if exists "file";

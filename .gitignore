@@ -4,3 +4,4 @@
 *.iml
 
 node_modules
+public/javascript/uploader/

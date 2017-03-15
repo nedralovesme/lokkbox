@@ -44,11 +44,31 @@ $(function() {
         } else if (!imageChosen && !isVideo(file.val())) {
             return failValidation('Please select a valid video file.');
         } else if (imageChosen && isImage(file.val()))  {
-            alert('going to send the photo file on through');
-            return false
+            console.log('going to send the photo file on through');
+            // return false
+            $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: '/save_video',
+                    success: function(data) {
+                        console.log('success');
+                        console.log(JSON.stringify(data));
+                    }
+                });
         } else if (!imageChosen && isVideo(file.val())) {
-            alert('going to send the photo file on through');
-            return false
+            console.log('going to send the photo file on through');
+            // return false
+            $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: '/save_pic',
+                    success: function(data) {
+                        console.log('success');
+                        console.log(JSON.stringify(data));
+                    }
+                });
         }
 
     });

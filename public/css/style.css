@@ -26,29 +26,6 @@ a {
   -webkit-animation: fadein 4s;
   /* Safari and Chrome */ }
 
-@keyframes fadein {
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
-@-moz-keyframes fadein {
-  /* Firefox */
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
-@-webkit-keyframes fadein {
-  /* Safari and Chrome */
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
-@-o-keyframes fadein {
-  /* Opera */
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
 #content {
   position: absolute;
   top: 220px;
@@ -116,6 +93,29 @@ a {
   border-radius: 5px;
   background-color: #fff; }
 
+@keyframes fadein {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
 .form {
   width: 470px;
   margin: 0 auto;
@@ -282,21 +282,64 @@ img {
   color: #eee;
   z-index: 4;
   font-size: 14px; }
+  #welcome a {
+    position: static;
+    padding: 0;
+    padding-right: 20px;
+    float: right;
+    color: #eee;
+    z-index: 4;
+    font-size: 14px; }
+  #welcome h4 {
+    margin-top: 0; }
 
 #collection-header {
   text-align: center; }
 
 #collections {
-  padding-left: 50px;
+  margin-left: 100px;
+  margin-right: auto;
   display: inline-flex; }
   #collections img {
     border: 1px solid #222;
-    max-height: 250px;
-    padding: 2px; }
+    max-height: 200px;
+    max-width: 300px;
+    text-align: center; }
+  #collections a {
+    text-decoration: none; }
 
 .img-info {
   position: absolute;
   color: #161616; }
+
+.box {
+  padding: 10px; }
+
+#video-box {
+  border: 1px solid #222;
+  background: url("../img/photo2.jpeg");
+  background-size: cover;
+  height: 200px;
+  padding: 0;
+  width: 300px;
+  /* border-radius:5px; */
+  overflow: hidden; }
+
+#overlay {
+  background: rgba(0, 0, 0, 0.75);
+  text-align: center;
+  padding: 45px 0 66px 0;
+  opacity: 0;
+  -webkit-transition: opacity .25s ease; }
+
+#video-box:hover #overlay {
+  opacity: 1; }
+
+#video-symbol {
+  font-family: Helvetica;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 96px; }
 
 @media (max-width: 767px) {
   .fullscreen-bg {

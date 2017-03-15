@@ -14,6 +14,9 @@ router.get('/join', (req, res) => {
     res.render('register', {session: req.session});
 });
 
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard', {session: req.session});
+
 router.get('/fileuploader', (req, res) => {
     res.render('fileuploader', {session: req.session});
 });

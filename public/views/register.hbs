@@ -2,7 +2,7 @@
 
 <div id="join-top"><center><h2>Sign up to become an Alpha Tester</h2>
 <h3>*you <b>must</b> be 18 or older to join lokkbox.</h3></center>
-<div class="form">
+<div class="form join-form">
         <form id="contactform" action="/submit_new_user" method="POST">
             <p class="contact"><label for="name">Name</label></p>
                 <input id="name" name="name" placeholder="First and last name" required="" tabindex="1" type="text">
@@ -14,40 +14,84 @@
               <input id="username" name="username" placeholder="username" required="" tabindex="2" type="text">
 
             <p class="contact"><label for="password">Create a password</label></p>
-              <input type="password" id="password" name="password" required="">
-            <p class="contact"><label for="repassword">Confirm your password</label></p>
-              <input type="password" id="repassword" name="repassword" required="">
+              <input type="password" id="password" name="password" placeholder="Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" required><br />
+              <label><h5>(minimum 6 characters; must use at least one uppercase letter and at least one number)</h5></label>
+            <p class="contact form-group password-confirm">
+                <input type="password" name="password-confirm" placeholder="Confirm Password" minlength="6" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$" oninput="check(this)" required>
+                <script language='javascript' type='text/javascript'>
+                    function check(input) {
+                        if (input.value != document.getElementById('password').value) {
+                            input.setCustomValidity('Passwords must match');
+                        } else {
+                            input.setCustomValidity('');
+                        }
+                    }
+                </script>
+                <script type="text/javascript">
+                 function call(){
+                var cyear = document.getElementsByName("year")[0],
+                 cmonth = document.getElementsByName("month")[0],
+                 cday = document.getElementsByName("day")[0];
 
+                var d = new Date();
+                var n = d.getFullYear();
+                for (var i = n; i >= 1950; i--) {
+                 var opt = new Option();
+                 opt.value = opt.text = i;
+                 cyear.add(opt);
+                   }
+                cyear.addEventListener("change", validate_date);
+                cmonth.addEventListener("change", validate_date);
+
+                function validate_date() {
+                var y = +cyear.value, m = cmonth.value, d = cday.value;
+                if (m === "2")
+                    var mlength = 28 + (!(y & 3) && ((y % 100) !== 0 || !(y & 15)));
+                else var mlength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1];
+                cday.length = 0;
+                for (var i = 1; i <= mlength; i++) {
+                    var opt = new Option();
+                    opt.value = opt.text = i;
+                    if (i == d) opt.selected = true;
+                    cday.add(opt);
+                }
+                    }
+                   validate_date();
+                 }
+                </script>
             <fieldset>
              <label>Birthday</label>
-              <label class="month">
-                  <select class="select-style" name="BirthMonth">
-                      <option value="">Select Month</option>
-                      <option  value="01">January</option>
-                      <option value="02">February</option>
-                      <option value="03" >March</option>
-                      <option value="04">April</option>
-                      <option value="05">May</option>
-                      <option value="06">June</option>
-                      <option value="07">July</option>
-                      <option value="08">August</option>
-                      <option value="09">September</option>
-                      <option value="10">October</option>
-                      <option value="11">November</option>
-                      <option value="12" >December</option>
-                 </select>
-             </label>
-            <label>Day <input class="birthday" maxlength="2" name="BirthDay"  placeholder="Day" required=""></label>
-            <label>Year <input class="birthyear" maxlength="4" name="BirthYear" placeholder="Year" required=""></label>
+             <div class="register-form-row">
+                 <div class="register-form-row-col"><label>Month: </label>
+                     <select name="month" onchange="call()" >
+                    <option value="">select</option>
+                    <option value="1">Jan</option>
+                    <option value="2">Feb</option>
+                    <option value="3">Mar</option>
+                    <option value="4">Apr</option>
+                    <option value="5">May</option>
+                    <option value="6">Jun</option>
+                    <option value="7">Jul</option>
+                    <option value="8">Aug</option>
+                    <option value="9">Sep</option>
+                    <option value="10">Oct</option>
+                    <option value="11">Nov</option>
+                    <option value="12">Dec</option>
+                   </select>
+                   <label>Day:</label>
+                   <select name="day" >
+                       <option value="">select</option>
+                   </select>
+                   <label>Year:</label>
+                        <select name="year" onchange="call()">
+                        <option value="">select</option>
+                    </select>
+            </div>
+            </div>
         </fieldset>
-<br>
+    <br>
             <input class="button" name="submit" id="submit" tabindex="5" value="submit + join" type="submit">
    </form>
 </div>
 </div>
-
   </p>
-</form>
-</div>
-</div>
-</body>

@@ -13,6 +13,10 @@ router.get('/join', (req, res) => {
     res.render('register', {session: req.session});
 });
 
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard', {session: req.session});
+});
+
 // router.get('/user/register', (req, res) => {
 //     // if (req.session.token) {
 //     //     res.redirect('/user/account');

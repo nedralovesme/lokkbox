@@ -1,5 +1,5 @@
 drop table if exists "user";
-create table "user"(
+create table "users"(
     "id" serial primary key,
     "f_name" text not null,
     "l_name" text not null,

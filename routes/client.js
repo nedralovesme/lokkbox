@@ -1,6 +1,6 @@
 'use strict';
 const router = require('express').Router();
-// const multer = require('multer');
+const multer = require('multer');
 
 router.get('/', (req, res) => {
     res.render('home', {session: req.session});
@@ -20,6 +20,10 @@ router.get('/demo', (req, res) => {
 
 router.get('/dashboard', (req, res) => {
     res.render('dashboard', {session: req.session});
+});
+
+router.get('/userCollections', (req, res) => {
+    res.render('userCollections', {session: req.session});
 });
 
 router.get('/fileuploader', (req, res) => {

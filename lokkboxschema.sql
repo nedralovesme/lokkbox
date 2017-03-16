@@ -1,4 +1,4 @@
-drop table if exists "user";
+drop table if exists "users";
 create table "users"(
     "id" serial primary key,
     "f_name" text not null,
@@ -7,7 +7,7 @@ create table "users"(
     "email" text not null,
     "password" text not null,
     "birthday" date not null,
-    "c_date" date timestamptz
+    "c_date" date
 );
 
 drop table if exists "file";

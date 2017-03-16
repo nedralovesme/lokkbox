@@ -22,6 +22,14 @@ client.connect();
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded());
 
+function auth(req, res, next){
+    if (req.session.name) {
+        next();
+    } else {
+        res.status(401);
+        console.log('Log in asshole');
+    }
+}
 
 
 router.get('/', (req, res) => {
@@ -40,7 +48,7 @@ router.get('/demo', (req, res) => {
     res.render('register', {session: req.session});
 });
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', auth, (req, res) => {
     res.render('dashboard', {session: req.session});
 });
 
@@ -101,6 +109,7 @@ router.post('/submit_login', function(req, res) {
 
 router.get('/logout', function(req, res){
     req.session.reset();
+    console.log(req.session.name);
     res.redirect('/')
 })
 

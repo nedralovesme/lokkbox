@@ -98,6 +98,11 @@ router.post('/submit_login', function(req, res) {
     });
 });
 
+router.get('/logout', function(req, res){
+    req.session.reset();
+    res.redirect('/')
+})
+
 
 // router.get('/user/register', (req, res) => {
 //     // if (req.session.token) {

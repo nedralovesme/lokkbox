@@ -1,7 +1,29 @@
 'use strict';
 const router = require('express').Router();
+const pg = require('pg');
 const multer = require('multer');
 const fs = require('fs');
+const bodyParser = require('body-parser');
+const path = require('path');
+const session = require('client-sessions');
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:rocket@localhost:5432/test';
+
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+router.use(session({
+    cookieName: 'session',
+    secret: 'wooooooooo'
+}));
+
+var client = new pg.Client(connectionString);
+client.connect();
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded());
+
+
+>>>>>>> origin/master
 
 router.get('/', (req, res) => {
     res.render('home', {session: req.session});
@@ -31,6 +53,52 @@ router.get('/fileuploader', (req, res) => {
     res.render('fileuploader', {session: req.session});
 });
 
+
+router.post('/submit_new_user', function(req, res) {
+    console.log(req.body);
+    var f_name = req.body.f_name;
+    var l_name = req.body.l_name;
+    var username = req.body.username;
+    var password = req.body.password;
+    var email = req.body.email;
+    var dob = req.body.month + "/" + req.body.day + "/" + req.body.year;
+    var c_date = "03/15/2017";
+
+    bcrypt.genSalt(saltRounds, function(err, salt){
+        bcrypt.hash(password, salt, function(err, hash){
+            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday, c_date) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "', '" + c_date + "')", function(err, results) {
+                if (err){
+                    throw err;
+                }
+            });
+        });
+    });
+    console.log("user has registered");
+    res.redirect('/')
+});
+
+router.post('/submit_login', function(req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+    client.query("SELECT password FROM users WHERE username ='" + username + "'", function(err, result) {
+        // console.log(result.rows);
+        if (err) {
+            throw err;
+        }
+        var hash = result.rows[0].password;
+        bcrypt.compare(password, hash, function(err, doesMatch){
+            if (doesMatch){
+                req.session.name = username;
+                console.log(req.session.name);
+                console.log("user has logged in");
+                res.redirect('/dashboard')
+            } else{
+                console.log("WRONG PASSWORD");
+                res.redirect('/')
+            }
+        });
+    });
+});
 
 
 // router.get('/user/register', (req, res) => {

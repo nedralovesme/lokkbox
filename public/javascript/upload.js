@@ -11,7 +11,7 @@ function isImage(filename) {
         case 'bmp':
         case 'png':
             //etc
-            return true;e
+            return true;
     }
     return false;
 }
@@ -31,12 +31,12 @@ function isVideo(filename) {
 }
 
 $(function() {
-    $('form').submit(function() {
+    $('form').submit(function(event) {
+        event.preventDefault();
         function failValidation(msg) {
-            alert(msg); // just an alert for now but you can spice this up later
+            alert(msg);
             return false;
         };
-
         var file = $('#file');
         var imageChosen = $('#type-1').is(':checked');
         if (imageChosen && !isImage(file.val())) {
@@ -45,32 +45,52 @@ $(function() {
             return failValidation('Please select a valid video file.');
         } else if (imageChosen && isImage(file.val()))  {
             console.log('going to send the photo file on through');
-            return true
+            var data = new FormData();
+            jQuery.each(jQuery('#file')[0].files, function(i, file) {
+                data.append('file-'+i, file);
+            });
+            console.log(data);
+            console.log(file[0].files);
+            console.log("about to send the files");
+            $.ajax({
+                    type: 'POST',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    url: '/api/save_pic',
+                    success: function(data) {
+                        console.log("*********HERES THE DATA*****");
+                        console.log(data);
+                        console.log('success');
+                        console.log('***************Stringified data*************');
+                        console.log(JSON.stringify(data));
+                    }
+                });
+        } else if (!imageChosen && isVideo(file.val())) {
+            // console.log('going to send the video file on through');
+            // var data = new FormData();
+            // jQuery.each(jQuery('#file')[0].files, function(i, file) {
+            //     data.append('file-'+i, file);
+            // });
+            // console.log(data);
+            // console.log(file[0].files);
             // $.ajax({
             //         type: 'POST',
-            //         data: JSON.stringify(data),
-            //         contentType: 'multipart/form-data',
+            //         data: data,
+            //         cache: false,
+            //         contentType: false,
+            //         processData: false,
             //         url: '/save_pic',
             //         success: function(data) {
+            //             console.log("*********HERES THE DATA*****");
+            //             console.log(data);
             //             console.log('success');
+            //             console.log('***************Stringified data*************');
             //             console.log(JSON.stringify(data));
             //         }
             //     });
-        } else if (!imageChosen && isVideo(file.val())) {
-            console.log('going to send the photo file on through');
-            return false
-            // $.ajax({
-            //         type: 'POST',
-            //         data: JSON.stringify(data),
-            //         contentType: 'multipart/form-data',
-            //         url: '/save_video',
-            //         success: function(data) {
-            //             console.log('success');
-            //             console.log(JSON.stringify(data));
-            //         }
-            //     });
-        }
 
+        };
     });
-
 });

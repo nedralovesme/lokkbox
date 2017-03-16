@@ -22,11 +22,11 @@ client.connect();
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded());
 
-function auth(req, res, next){
+function auth (req, res, next){
     if (req.session.name) {
         next();
     } else {
-        res.status(401);
+        res.redirect('/join')
         console.log('Log in asshole');
     }
 }
@@ -69,7 +69,7 @@ router.post('/submit_new_user', function(req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var dob = req.body.month + "/" + req.body.day + "/" + req.body.year;
-    var c_date = "03/15/2017";
+    var c_date = new Date();
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){

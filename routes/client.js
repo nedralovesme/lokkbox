@@ -23,7 +23,6 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded());
 
 
->>>>>>> origin/master
 
 router.get('/', (req, res) => {
     res.render('home', {session: req.session});
@@ -123,7 +122,7 @@ var storage =   multer.diskStorage({
 });
 
 router.post('/api/save_pic',function(req,res){
-    var upload = multer({ dest : '/uploads'});
+    var upload = multer({ dest : '/Users/patrickbullion/htdocs/lokkbox/uploads'});
     multer(req,res,function(err) {
         if(err) {
             return res.end("Error uploading file.");

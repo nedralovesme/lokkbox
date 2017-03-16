@@ -45,30 +45,30 @@ $(function() {
             return failValidation('Please select a valid video file.');
         } else if (imageChosen && isImage(file.val()))  {
             console.log('going to send the photo file on through');
-            // return false
-            $.ajax({
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    url: '/save_video',
-                    success: function(data) {
-                        console.log('success');
-                        console.log(JSON.stringify(data));
-                    }
-                });
+            return true
+            // $.ajax({
+            //         type: 'POST',
+            //         data: JSON.stringify(data),
+            //         contentType: 'multipart/form-data',
+            //         url: '/save_pic',
+            //         success: function(data) {
+            //             console.log('success');
+            //             console.log(JSON.stringify(data));
+            //         }
+            //     });
         } else if (!imageChosen && isVideo(file.val())) {
             console.log('going to send the photo file on through');
-            // return false
-            $.ajax({
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    url: '/save_pic',
-                    success: function(data) {
-                        console.log('success');
-                        console.log(JSON.stringify(data));
-                    }
-                });
+            return false
+            // $.ajax({
+            //         type: 'POST',
+            //         data: JSON.stringify(data),
+            //         contentType: 'multipart/form-data',
+            //         url: '/save_video',
+            //         success: function(data) {
+            //             console.log('success');
+            //             console.log(JSON.stringify(data));
+            //         }
+            //     });
         }
 
     });

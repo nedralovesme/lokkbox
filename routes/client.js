@@ -19,8 +19,8 @@ router.use(session({
 var client = new pg.Client(connectionString);
 client.connect();
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded());
+router.use(bodyParser.urlencoded({limit: '50mb', parameterLimit: 1000000}));
+router.use(bodyParser.json({limit: '50mb', parameterLimit: 1000000}));
 
 function auth (req, res, next){
     if (req.session.name) {
@@ -120,41 +120,53 @@ router.get('/logout', function(req, res){
 //     // } else {
 //         res.render('register')};
 
-var storage =   multer.diskStorage({
-  // destination: function (req, file, callback) {
-  //   fs.mkdir('./uploads', function(err) {
-  //       if(err) {
-  //           console.log(err.stack)
-  //       } else {
-  //           callback(null, './uploads');
-  //       }
-  //   })
-  // },
-  filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now());
-  }
-});
 
-router.post('/api/save_pic',function(req,res){
-    var upload = multer({ dest : '/Users/patrickbullion/htdocs/lokkbox/uploads'});
+
+// ************************
+// MULTER
+// ************************
+
+// var storage =   multer.diskStorage({
+//   destination: function (req, file, cb) {
+//       cb(null, '/Users/patrickbullion/htdocs/lokkbox/uploads')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now());
+//   }
+// });
+// var upload = multer({ storage: storage });
+
+var upload = multer({ dest : '/Users/patrickbullion/htdocs/lokkbox/uploads'});
+router.use(multer({dest:'/Users/patrickbullion/htdocs/lokkbox/uploads'}).single('photo'));
+
+var type = upload.single('file');
+
+router.post('/api/save_pic', type, function(req,res) {
+    console.log("im in the router bout to upload to destination.");
+    // console.log('req.body');
+    // console.log(req.body);
+    console.log('req.file');
+    console.log(req.file);
+    console.log('res.body');
+    console.log(res.body);
+    console.log('res.file');
+    console.log(res.file);
     multer(req,res,function(err) {
+        console.log("inside multer function");
         if(err) {
             return res.end("Error uploading file.");
         }
         res.end("File is uploaded");
+        console.log("about to render home screen");
+        res.redirect('/');
     });
 });
 
-// router.post('/save_pic', function(req, res){
-// 	var obj = {};
-// 	console.log('body: ' + JSON.stringify(req.body));
-// 	res.send(req.body);
-// });
+
+
 // ***********************************
 // VIDEO CONVERTER (TO .MP4)
-// router.post('/save_video', multer({
-//    dest: './uploads/'
-// }).single('upl'), function(req, res) {
+// router.post('/save_pic', multer({dest: './uploads/'}).single('file'), function(req, res) {
 //
 //    // req.app.io.on('connection', function(socket) {
 //        req.app.io.emit('files', "this is a test");

@@ -17,7 +17,7 @@ router.use(session({
 }));
 
 var client = new pg.Client(connectionString);
-client.connect();
+// client.connect();
 
 router.use(bodyParser.urlencoded({limit: '50mb', parameterLimit: 1000000}));
 router.use(bodyParser.json({limit: '50mb', parameterLimit: 1000000}));
@@ -69,11 +69,11 @@ router.post('/submit_new_user', function(req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var dob = req.body.month + "/" + req.body.day + "/" + req.body.year;
-    // var c_date = new Date();
+    var c_date = new Date();
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
-            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "')", function(err, results) {
+            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday, c_date) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "', '" + c_date + "')", function(err, results) {
                 if (err){
                     throw err;
                 }
@@ -123,112 +123,94 @@ router.get('/logout', function(req, res){
 
 
 // ************************
-// MULTER
+// MULTER FILE UPLOAD
 // ************************
+var upload = multer({ dest: '/Users/patrickbullion/htdocs/lokkbox/uploads'});
 
-// var storage =   multer.diskStorage({
-//   destination: function (req, file, cb) {
-//       cb(null, '/Users/patrickbullion/htdocs/lokkbox/uploads')
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, file.fieldname + '-' + Date.now());
-//   }
-// });
-// var upload = multer({ storage: storage });
+var type = upload.single('upl');
 
-// var upload = multer({ dest : '/Users/patrickbullion/htdocs/lokkbox/uploads'});
-// router.use(multer({dest:'/Users/patrickbullion/htdocs/lokkbox/uploads'}).single('photo'));
+router.post('/save_pic', type, function (req,res) {
+  var tmp_path = req.file.path;
+    console.log(req.file);
+  var target_path = '/Users/patrickbullion/htdocs/lokkbox/uploads' + req.file.originalname;
 
-// var type = upload.single('file');
-//
-// router.post('/api/save_pic', type, function(req,res) {
-//     console.log("im in the router bout to upload to destination.");
-//     // console.log('req.body');
-//     // console.log(req.body);
-//     console.log('req.file');
-//     console.log(req.file);
-//     console.log('res.body');
-//     console.log(res.body);
-//     console.log('res.file');
-//     console.log(res.file);
-//     multer(req,res,function(err) {
-//         console.log("inside multer function");
-//         if(err) {
-//             return res.end("Error uploading file.");
-//         }
-//         res.end("File is uploaded");
-//         console.log("about to render home screen");
-//         res.redirect('/');
-//     });
-// });
+  var src = fs.createReadStream(tmp_path);
+  var dest = fs.createWriteStream(target_path);
+  src.pipe(dest);
+  src.on('end', function() { res.render('home'); });
+  src.on('error', function(err) { res.render('error'); });
 
+});
 
 
 // ***********************************
 // VIDEO CONVERTER (TO .MP4)
-// router.post('/save_pic', multer({dest: './uploads/'}).single('file'), function(req, res) {
-//
-//    // req.app.io.on('connection', function(socket) {
-//        req.app.io.emit('files', "this is a test");
-//        // req.app.io.on('my other event', function(data) {
-//        //     console.log(data);
-//        // });
-//    // });
-//    // console.log(req.body); //form fields
-//    /* example output:
-//    { title: 'abc' }
-//     */
-//    // console.log(req.file); //form files
-//    /* example output:
-//            { fieldname: 'upl',
-//              originalname: 'grumpy.png',
-//              encoding: '7bit',
-//              mimetype: 'image/png',
-//              destination: './uploads/',
-//              filename: '436ec561793aa4dc475a88e84776b1b9',
-//              path: 'uploads/436ec561793aa4dc475a88e84776b1b9',
-//              size: 277056 }
-//      */
-//    var spawn = require('child_process').spawn;
-//    var child = spawn(
-//        '/Applications/ffmpeg', [
-//            '-i', req.file.path,
-//            '-f', 'mp4',
-//            '-vcodec', 'libx264',
-//            '-preset', 'fast',
-//            '-profile:v', 'main',
-//            '-acodec', 'aac',
-//            '-strict', '-2',
-//            req.file.path + '.mp4', '-hide_banner'
-//        ]
-//        //,function(){console.log("finished");}
-//    );
-//    console.log("spawning child process");
-//    //ffmpeg -i input.ext -f mp4 -vcodec libx264 -preset fast -profile:v main -acodec aac -strict -2 input.ext.mp4 -hide_banner
-//
-//    /*
-//    child.stdout.on('data', function(data) {
-//      // output will be here in chunks
-//      console.log(data);
-//    });
-//    */
-//
-//    /*
-//    // Listen for any errors:
-//    child.stderr.on('data', function (data) {
-//        //console.log('There was an error: ' + data);
-//    });
-//    */
-//
-//    child.on('exit', function() {
-//        console.log('finished the child process');
-//        req.app.io.emit('files', "finished the child process");
-//    })
-//
-//    // or if you want to send output elsewhere
-//    //child.stdout.pipe(dest);
-//    res.status(204).end();
-// });
+// ***********************************
+router.post('/save_video', multer({
+    dest: './uploads/'
+}).single('upl'), function(req, res) {
+
+   // req.app.io.on('connection', function(socket) {
+   //     req.app.io.emit('files', "this is a test");
+       // req.app.io.on('my other event', function(data) {
+       //     console.log(data);
+       // });
+   // });
+   // console.log(req.body); //form fields
+   /* example output:
+   { title: 'abc' }
+    */
+   // console.log(req.file); //form files
+   /* example output:
+           { fieldname: 'upl',
+             originalname: 'grumpy.png',
+             encoding: '7bit',
+             mimetype: 'image/png',
+             destination: './uploads/',
+             filename: '436ec561793aa4dc475a88e84776b1b9',
+             path: 'uploads/436ec561793aa4dc475a88e84776b1b9',
+             size: 277056 }
+     */
+   var spawn = require('child_process').spawn;
+   var child = spawn(
+       'ffmpeg', [
+           '-i', req.file.path,
+           '-f', 'mp4',
+           '-vcodec', 'libx264',
+           '-preset', 'fast',
+           '-profile:v', 'main',
+           '-acodec', 'aac',
+           '-strict', '-2',
+           req.file.path + '.mp4', '-hide_banner'
+       ]
+       //,function(){console.log("finished");}
+   );
+   console.log("spawning child process");
+   //ffmpeg -i input.ext -f mp4 -vcodec libx264 -preset fast -profile:v main -acodec aac -strict -2 input.ext.mp4 -hide_banner
+
+   /*
+   child.stdout.on('data', function(data) {
+     // output will be here in chunks
+     console.log(data);
+   });
+   */
+
+   /*
+   // Listen for any errors:
+   child.stderr.on('data', function (data) {
+       //console.log('There was an error: ' + data);
+   });
+   */
+
+   child.on('exit', function() {
+       console.log('finished the child process');
+       // req.app.io.emit('files', "finished the child process");
+   })
+
+   // or if you want to send output elsewhere
+   //child.stdout.pipe(dest);
+   res.status(204).end();
+});
 
 
 

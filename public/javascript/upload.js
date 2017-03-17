@@ -47,49 +47,37 @@ $(function() {
             console.log('going to send the photo file on through');
             var data = new FormData();
             jQuery.each(jQuery('#file')[0].files, function(i, file) {
-                data.append('file-'+i, file);
+                data.append('upl', file);
             });
-            console.log(data);
-            console.log(file[0].files);
-            console.log("about to send the files");
             $.ajax({
                     type: 'POST',
                     data: data,
                     cache: false,
                     contentType: false,
                     processData: false,
-                    url: '/api/save_pic',
+                    url: '/save_pic',
                     success: function(data) {
-                        console.log("*********HERES THE DATA*****");
-                        console.log(data);
-                        console.log('success');
-                        console.log('***************Stringified data*************');
                         console.log(JSON.stringify(data));
+                        console.log("SUCCESS");
                     }
                 });
         } else if (!imageChosen && isVideo(file.val())) {
-            // console.log('going to send the video file on through');
-            // var data = new FormData();
-            // jQuery.each(jQuery('#file')[0].files, function(i, file) {
-            //     data.append('file-'+i, file);
-            // });
-            // console.log(data);
-            // console.log(file[0].files);
-            // $.ajax({
-            //         type: 'POST',
-            //         data: data,
-            //         cache: false,
-            //         contentType: false,
-            //         processData: false,
-            //         url: '/save_pic',
-            //         success: function(data) {
-            //             console.log("*********HERES THE DATA*****");
-            //             console.log(data);
-            //             console.log('success');
-            //             console.log('***************Stringified data*************');
-            //             console.log(JSON.stringify(data));
-            //         }
-            //     });
+            console.log('going to send the video file on through');
+            var data = new FormData();
+            jQuery.each(jQuery('#file')[0].files, function(i, file) {
+                data.append('upl', file);
+            });
+            $.ajax({
+                    type: 'POST',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    url: '/save_video',
+                    success: function(data) {
+                        console.log(JSON.stringify(data));
+                    }
+                });
 
         };
     });

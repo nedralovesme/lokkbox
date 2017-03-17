@@ -69,11 +69,11 @@ router.post('/submit_new_user', function(req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var dob = req.body.month + "/" + req.body.day + "/" + req.body.year;
-    var c_date = new Date();
+    // var c_date = new Date();
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
-            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday, c_date) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "', '" + c_date + "')", function(err, results) {
+            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "')", function(err, results) {
                 if (err){
                     throw err;
                 }
@@ -136,31 +136,31 @@ router.get('/logout', function(req, res){
 // });
 // var upload = multer({ storage: storage });
 
-var upload = multer({ dest : '/Users/patrickbullion/htdocs/lokkbox/uploads'});
-router.use(multer({dest:'/Users/patrickbullion/htdocs/lokkbox/uploads'}).single('photo'));
+// var upload = multer({ dest : '/Users/patrickbullion/htdocs/lokkbox/uploads'});
+// router.use(multer({dest:'/Users/patrickbullion/htdocs/lokkbox/uploads'}).single('photo'));
 
-var type = upload.single('file');
-
-router.post('/api/save_pic', type, function(req,res) {
-    console.log("im in the router bout to upload to destination.");
-    // console.log('req.body');
-    // console.log(req.body);
-    console.log('req.file');
-    console.log(req.file);
-    console.log('res.body');
-    console.log(res.body);
-    console.log('res.file');
-    console.log(res.file);
-    multer(req,res,function(err) {
-        console.log("inside multer function");
-        if(err) {
-            return res.end("Error uploading file.");
-        }
-        res.end("File is uploaded");
-        console.log("about to render home screen");
-        res.redirect('/');
-    });
-});
+// var type = upload.single('file');
+//
+// router.post('/api/save_pic', type, function(req,res) {
+//     console.log("im in the router bout to upload to destination.");
+//     // console.log('req.body');
+//     // console.log(req.body);
+//     console.log('req.file');
+//     console.log(req.file);
+//     console.log('res.body');
+//     console.log(res.body);
+//     console.log('res.file');
+//     console.log(res.file);
+//     multer(req,res,function(err) {
+//         console.log("inside multer function");
+//         if(err) {
+//             return res.end("Error uploading file.");
+//         }
+//         res.end("File is uploaded");
+//         console.log("about to render home screen");
+//         res.redirect('/');
+//     });
+// });
 
 
 

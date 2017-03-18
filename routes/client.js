@@ -131,12 +131,12 @@ var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
-    console.log(req.file);
-  var target_path = '/Users/patrickbullion/htdocs/lokkbox/uploads' + req.file.originalname;
+  var target_path = '/Users/patrickbullion/htdocs/lokkbox/uploads/' + req.file.originalname;
 
   var src = fs.createReadStream(tmp_path);
   var dest = fs.createWriteStream(target_path);
   src.pipe(dest);
+  fs.unlink(tmp_path); //deleting the tmp_path
   src.on('end', function() { res.render('home'); });
   src.on('error', function(err) { res.render('error'); });
 
@@ -181,7 +181,7 @@ router.post('/save_video', multer({
            '-profile:v', 'main',
            '-acodec', 'aac',
            '-strict', '-2',
-           req.file.path + '.mp4', '-hide_banner'
+           req.file.destination + req.file.originalname + '.mp4', '-hide_banner'
        ]
        //,function(){console.log("finished");}
    );
@@ -201,12 +201,11 @@ router.post('/save_video', multer({
        //console.log('There was an error: ' + data);
    });
    */
-
    child.on('exit', function() {
        console.log('finished the child process');
+       fs.unlink(req.file.path); //deleting the temp file
        // req.app.io.emit('files', "finished the child process");
-   })
-
+   });
    // or if you want to send output elsewhere
    //child.stdout.pipe(dest);
    res.status(204).end();

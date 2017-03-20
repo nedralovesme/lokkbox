@@ -129,13 +129,13 @@ router.get('/logout', function(req, res){
 // ************************
 // MULTER FILE UPLOAD
 // ************************
-var upload = multer({ dest: './uploads'});
+var upload = multer({ dest: './uploads/images'});
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
-  var target_path = './uploads/' + req.file.originalname;
+  var target_path = './uploads/images/' + req.file.originalname;
 
 
   var src = fs.createReadStream(tmp_path);
@@ -152,7 +152,7 @@ router.post('/save_pic', type, function (req,res) {
 // VIDEO CONVERTER (TO .MP4)
 // ***********************************
 router.post('/save_video', multer({
-    dest: './uploads/'
+    dest: './uploads/videos/'
 }).single('upl'), function(req, res) {
 
    // req.app.io.on('connection', function(socket) {

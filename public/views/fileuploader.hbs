@@ -15,105 +15,21 @@
 </form>
 <script src="../javascript/upload.js"></script>
 
+<!--&lt;!&ndash;*************BLUIMP****************&ndash;&gt;-->
+<!--<link rel="stylesheet" href="../javascript/buttonUploader/style.css">-->
+<!--&lt;!&ndash; blueimp Gallery styles &ndash;&gt;-->
+<!--<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">-->
+<!--&lt;!&ndash; CSS to style the file input field as button and adjust the Bootstrap progress bars &ndash;&gt;-->
+<!--<link rel="stylesheet" href="../javascript/buttonUploader/css/jquery.fileupload.css">-->
+<!--<link rel="stylesheet" href="../javascript/buttonUploader/css/jquery.fileupload-ui.css">-->
+<!--&lt;!&ndash; CSS adjustments for browsers with JavaScript disabled &ndash;&gt;-->
+<!--<noscript><link rel="stylesheet" href="../javascript/buttonUploader/css/jquery.fileupload-noscript.css"></noscript>-->
+<!--<noscript><link rel="stylesheet" href="../javascript/buttonUploader/css/jquery.fileupload-ui-noscript.css"></noscript>-->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--********************-->
-<!--second try-->
-<!--<input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>-->
-<!--<div id="progress">-->
-    <!--<div class="bar" style="width: 0%;"></div>-->
-<!--</div>-->
-<!--<script src="javascript/jquery.ui.widget.js"></script>-->
-<!--<script src="javascript/jquery.iframe-transport.js"></script>-->
-<!--<script src="../javascript/fileupload.js"></script>-->
-<!--<script>-->
-<!--$(function () {-->
-    <!--$('#fileupload').fileupload({-->
-        <!--dataType: 'json',-->
-        <!--done: function (e, data) {-->
-            <!--$.each(data.result.files, function (index, file) {-->
-                <!--$('<p/>').text(file.name).appendTo(document.body);-->
-            <!--});-->
-        <!--}-->
-    <!--});-->
-<!--});-->
-<!--$('#fileupload').fileupload({-->
-    <!--/* ... */-->
-    <!--progressall: function (e, data) {-->
-        <!--var progress = parseInt(data.loaded / data.total * 100, 10);-->
-        <!--$('#progress .bar').css(-->
-            <!--'width',-->
-            <!--progress + '%'-->
-        <!--);-->
-    <!--}-->
-<!--});-->
-<!--$(function () {-->
-    <!--$('#fileupload').fileupload({-->
-        <!--dataType: 'json',-->
-        <!--add: function (e, data) {-->
-            <!--data.context = $('<p/>').text('Uploading...').appendTo(document.body);-->
-            <!--data.submit();-->
-        <!--},-->
-        <!--done: function (e, data) {-->
-            <!--data.context.text('Upload finished.');-->
-        <!--}-->
-    <!--});-->
-<!--});-->
-<!--$(function () {-->
-    <!--$('#fileupload').fileupload({-->
-        <!--dataType: 'json',-->
-        <!--add: function (e, data) {-->
-            <!--data.context = $('<button/>').text('Upload')-->
-                <!--.appendTo(document.body)-->
-                <!--.click(function () {-->
-                    <!--data.context = $('<p/>').text('Uploading...').replaceAll($(this));-->
-                    <!--data.submit();-->
-                <!--});-->
-        <!--},-->
-        <!--done: function (e, data) {-->
-            <!--data.context.text('Upload finished.');-->
-        <!--}-->
-    <!--});-->
-<!--});-->
-
-<!--</script>-->
-
-<!--*****************-->
-<!--Third Try-->
-
-<!--<form id="fileupload" action="/save_file" method="POST" enctype="multipart/form-data">-->
+    <!--<br>-->
+    <!--&lt;!&ndash; The file upload form used as target for the file upload widget &ndash;&gt;-->
+    <!--<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">-->
         <!--&lt;!&ndash; Redirect browsers with JavaScript disabled to the origin page &ndash;&gt;-->
         <!--<noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>-->
         <!--&lt;!&ndash; The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload &ndash;&gt;-->
@@ -123,7 +39,7 @@
                 <!--<span class="btn btn-success fileinput-button">-->
                     <!--<i class="glyphicon glyphicon-plus"></i>-->
                     <!--<span>Add files...</span>-->
-                    <!--<input type="file" name="files[]" multiple>-->
+                    <!--<input type="file" name="upl" multiple>-->
                 <!--</span>-->
                 <!--<button type="submit" class="btn btn-primary start">-->
                     <!--<i class="glyphicon glyphicon-upload"></i>-->
@@ -154,6 +70,8 @@
         <!--&lt;!&ndash; The table listing the files available for upload/download &ndash;&gt;-->
         <!--<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>-->
     <!--</form>-->
+    <!--<br>-->
+
 <!--&lt;!&ndash; The blueimp Gallery widget &ndash;&gt;-->
 <!--<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">-->
     <!--<div class="slides"></div>-->
@@ -241,7 +159,7 @@
 <!--</script>-->
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
 <!--&lt;!&ndash; The jQuery UI widget factory, can be omitted if jQuery UI is already included &ndash;&gt;-->
-<!--<script src="uploader/vendor/jquery.ui.widget.js"></script>-->
+<!--<script src="js/vendor/jquery.ui.widget.js"></script>-->
 <!--&lt;!&ndash; The Templates plugin is included to render the upload/download listings &ndash;&gt;-->
 <!--<script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>-->
 <!--&lt;!&ndash; The Load Image plugin is included for the preview images and image resizing functionality &ndash;&gt;-->
@@ -253,31 +171,24 @@
 <!--&lt;!&ndash; blueimp Gallery script &ndash;&gt;-->
 <!--<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>-->
 <!--&lt;!&ndash; The Iframe Transport is required for browsers without support for XHR file uploads &ndash;&gt;-->
-<!--<script src="uploader/jquery.iframe-transport.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.iframe-transport.js"></script>-->
 <!--&lt;!&ndash; The basic File Upload plugin &ndash;&gt;-->
-<!--<script src="uploader/jquery.fileupload.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.fileupload.js"></script>-->
 <!--&lt;!&ndash; The File Upload processing plugin &ndash;&gt;-->
-<!--<script src="uploader/jquery.fileupload-process.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.fileupload-process.js"></script>-->
 <!--&lt;!&ndash; The File Upload image preview & resize plugin &ndash;&gt;-->
-<!--<script src="uploader/jquery.fileupload-image.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.fileupload-image.js"></script>-->
 <!--&lt;!&ndash; The File Upload audio preview plugin &ndash;&gt;-->
-<!--<script src="uploader/jquery.fileupload-audio.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.fileupload-audio.js"></script>-->
 <!--&lt;!&ndash; The File Upload video preview plugin &ndash;&gt;-->
-<!--<script src="uploader/jquery.fileupload-video.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.fileupload-video.js"></script>-->
 <!--&lt;!&ndash; The File Upload validation plugin &ndash;&gt;-->
-<!--<script src="uploader/jquery.fileupload-validate.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.fileupload-validate.js"></script>-->
 <!--&lt;!&ndash; The File Upload user interface plugin &ndash;&gt;-->
-<!--<script src="uploader/jquery.fileupload-ui.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/jquery.fileupload-ui.js"></script>-->
 <!--&lt;!&ndash; The main application script &ndash;&gt;-->
-<!--<script src="uploader/main.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/main.js"></script>-->
 <!--&lt;!&ndash; The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 &ndash;&gt;-->
 <!--&lt;!&ndash;[if (gte IE 8)&(lt IE 10)]>-->
-<!--<script src="uploader/cors/jquery.xdr-transport.js"></script>-->
+<!--<script src="../javascript/buttonUploader/js/cors/jquery.xdr-transport.js"></script>-->
 <!--<![endif]&ndash;&gt;-->
-
-<!--<link rel="stylesheet" href="uploader/css/style.css">-->
-<!--&lt;!&ndash; blueimp Gallery styles &ndash;&gt;-->
-<!--<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">-->
-<!--&lt;!&ndash; CSS to style the file input field as button and adjust the Bootstrap progress bars &ndash;&gt;-->
-<!--<link rel="stylesheet" href="uploader/css/jquery.fileupload.css">-->
-<!--<link rel="stylesheet" href="uploader/css/jquery.fileupload-ui.css">-->

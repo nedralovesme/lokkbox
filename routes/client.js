@@ -125,13 +125,13 @@ router.get('/logout', function(req, res){
 // ************************
 // MULTER FILE UPLOAD
 // ************************
-var upload = multer({ dest: '../uploads'});
+var upload = multer({ dest: './uploads'});
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
-  var target_path = '../uploads/' + req.file.originalname;
+  var target_path = './uploads/' + req.file.originalname;
 
   var src = fs.createReadStream(tmp_path);
   var dest = fs.createWriteStream(target_path);

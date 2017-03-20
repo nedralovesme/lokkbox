@@ -17,7 +17,7 @@ router.use(session({
 }));
 
 var client = new pg.Client(connectionString);
-// client.connect();
+client.connect();
 
 router.use(bodyParser.urlencoded({limit: '50mb', parameterLimit: 1000000}));
 router.use(bodyParser.json({limit: '50mb', parameterLimit: 1000000}));
@@ -113,6 +113,18 @@ router.get('/logout', function(req, res){
     res.redirect('/')
 })
 
+router.get('/users/:username', function(req, res){
+    var username = req.params.username;
+    // console.log(username);
+    client.query("SELECT f_name, l_name FROM users WHERE username ='" + username + "'", function(err, results){
+        if (err){
+            throw err;
+        };
+        console.log(results.rows[0]);
+        res.send(results.rows)
+    });
+})
+
 
 // router.get('/user/register', (req, res) => {
 //     // if (req.session.token) {
@@ -125,13 +137,13 @@ router.get('/logout', function(req, res){
 // ************************
 // MULTER FILE UPLOAD
 // ************************
-var upload = multer({ dest: '/Users/patrickbullion/htdocs/lokkbox/uploads'});
+var upload = multer({ dest: '/Users/marvinmartinez/htdocs/lokkbox/uploads'});
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
-  var target_path = '/Users/patrickbullion/htdocs/lokkbox/uploads/' + req.file.originalname;
+  var target_path = '/Users/marvinmartinez/htdocs/lokkbox/uploads/' + req.file.originalname;
 
 
   var src = fs.createReadStream(tmp_path);

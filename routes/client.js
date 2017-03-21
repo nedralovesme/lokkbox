@@ -109,10 +109,12 @@ router.post('/submit_login', function(req, res) {
                 console.log(req.session.user_id);
                 console.log("user has logged in");
                 res.redirect('/dashboard')
-                var userDir = './uploads/images/' + req.session.user_id;
-                if (!fs.existsSync(userDir)){
-                  fs.mkdirSync(userDir);
-              }
+                var userImgDir = './uploads/images/' + req.session.user_id;
+                var userVidDir = './uploads/videos/' + req.session.user_id;
+                if (!fs.existsSync(userImgDir)){
+                  fs.mkdirSync(userImgDir);
+              } else if (!fs.existsSync(userVidDir)){
+                  fs.mkdirSync(userVidDir);
             } else{
                 console.log("WRONG PASSWORD");
                 res.redirect('/')
@@ -157,32 +159,21 @@ router.get('/users/:username', auth, function(req, res){
 // // ************************
 // // MULTER FILE UPLOAD
 // // ************************
-// var testing = 777;
 var upload = multer({ dest: './uploads/images/temp/'});
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
-    console.log(req);
   var tmp_path = req.file.path;
-  // var target_path = './uploads/images/' + req.sessionID + '/' + req.file.originalname;
   var target_path = './uploads/images/' + req.session.user_id + '/' + req.file.originalname;
 
   var src = fs.createReadStream(tmp_path);
   var dest = fs.createWriteStream(target_path);
   var userDir = './uploads/images/' + req.session.user_id;
-  if (!fs.existsSync(userDir)){
-    fs.mkdirSync(userDir);
-    src.pipe(dest);
-    fs.unlink(tmp_path); //deleting the tmp_path
-    src.on('end', function() { res.render('home'); });
-    src.on('error', function(err) { res.render('error'); });
-} else {
-      src.pipe(dest);
-      fs.unlink(tmp_path); //deleting the tmp_path
-      src.on('end', function () {res.render('home'); });
-      src.on('error', function (err) {res.render('error'); });
-  }
+  src.pipe(dest);
+  fs.unlink(tmp_path); //deleting the tmp_path
+  src.on('end', function () {res.render('home'); });
+  src.on('error', function (err) {res.render('error'); });
 
 
   var user_id;
@@ -260,7 +251,7 @@ router.post('/save_video', multer({
            '-profile:v', 'main',
            '-acodec', 'aac',
            '-strict', '-2',
-           req.file.destination + req.file.originalname + '.mp4', '-hide_banner'
+           req.file.destination + req.session.user_id + '/' + req.file.originalname + '.mp4', '-hide_banner'
        ]
        //,function(){console.log("finished");}
    );

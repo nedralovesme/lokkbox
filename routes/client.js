@@ -60,6 +60,10 @@ router.get('/fileuploader', (req, res) => {
     res.render('fileuploader', {session: req.session});
 });
 
+router.get('/fileuploaderblue', (req, res) => {
+    res.render('fileuploaderblue', {session: req.session});
+});
+
 
 router.post('/submit_new_user', function(req, res) {
     console.log(req.body);
@@ -137,13 +141,21 @@ router.get('/users/:username', function(req, res){
 // ************************
 // MULTER FILE UPLOAD
 // ************************
+<<<<<<< HEAD
 var upload = multer({ dest: '/Users/marvinmartinez/htdocs/lokkbox/uploads'});
+=======
+var upload = multer({ dest: './uploads/images'});
+>>>>>>> 1bde8411caaae8243499028aad266c03e54a8e03
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
+<<<<<<< HEAD
   var target_path = '/Users/marvinmartinez/htdocs/lokkbox/uploads/' + req.file.originalname;
+=======
+  var target_path = './uploads/images/' + req.file.originalname;
+>>>>>>> 1bde8411caaae8243499028aad266c03e54a8e03
 
 
   var src = fs.createReadStream(tmp_path);
@@ -160,7 +172,7 @@ router.post('/save_pic', type, function (req,res) {
 // VIDEO CONVERTER (TO .MP4)
 // ***********************************
 router.post('/save_video', multer({
-    dest: './uploads/'
+    dest: './uploads/videos/'
 }).single('upl'), function(req, res) {
 
    // req.app.io.on('connection', function(socket) {

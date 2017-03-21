@@ -7,7 +7,7 @@ create table "users"(
     "email" text not null,
     "password" text not null,
     "birthday" date not null,
-    "c_date" date
+    "c_date" date default current_date
 );
 
 drop table if exists "file";
@@ -15,9 +15,9 @@ create table "file"(
     "id" serial primary key,
     "name" text null,
     "path" text not null,
-    "typeId" text not null,
-    "c_date" date not null,
-    "userId" integer not null,
+    "type_id" text not null,
+    "c_date" date default current_date,
+    "user_id" text not null,
     "album" text null
 );
 

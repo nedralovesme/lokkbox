@@ -75,7 +75,7 @@ router.post('/submit_new_user', function(req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var dob = req.body.month + "/" + req.body.day + "/" + req.body.year;
-    var c_date = new Date();
+    // var c_date = new Date();
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
@@ -119,7 +119,7 @@ router.get('/logout', function(req, res){
     res.redirect('/')
 })
 
-router.get('/users/:username', function(req, res){
+router.get('/users/:username', auth, function(req, res){
     var username = req.params.username;
     // console.log(username);
     client.query("SELECT f_name, l_name FROM users WHERE username ='" + username + "'", function(err, results){
@@ -160,6 +160,19 @@ router.post('/save_pic', type, function (req,res) {
   fs.unlink(tmp_path); //deleting the tmp_path
   src.on('end', function() { res.render('home'); });
   src.on('error', function(err) { res.render('error'); });
+
+  var user_id;
+  client.query("SELECT id FROM users WHERE username = '" + req.session.name + "'", function(err, result){
+      if (err){
+          throw err;
+      }
+      user_id = result.rows[0].id;
+      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('" + target_path +"', 'pic', '" + user_id + "')", function(err, results){
+          if (err){
+              throw err;
+          }
+      });
+  });
 
 });
 

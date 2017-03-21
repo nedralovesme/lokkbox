@@ -4,6 +4,7 @@ const pg = require('pg');
 const multer = require('multer');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+// const upload = require('jquery-file-upload-middleware');
 const path = require('path');
 const session = require('client-sessions');
 
@@ -141,16 +142,35 @@ router.get('/users/:username', auth, function(req, res){
 
 
 
-// ************************
-// MULTER FILE UPLOAD
-// ************************
-
-var upload = multer({ dest: './uploads/images'});
+// // ************************
+// // MULTER FILE UPLOAD
+// // ************************
+var testing = 7777;
+var upload = multer({ dest: './uploads/images/' + testing});
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
+    console.log(req);
   var tmp_path = req.file.path;
+  // var target_path = './uploads/images/' + req.sessionID + '/' + req.file.originalname;
+  var target_path = './uploads/images/' + testing + '/' + req.file.originalname;
+
+  var src = fs.createReadStream(tmp_path);
+  var dest = fs.createWriteStream(target_path);
+  var userDir = './uploads/images/' + testing;
+  if (!fs.existsSync(userDir)){
+    fs.mkdirSync(userDir);
+    src.pipe(dest);
+    fs.unlink(tmp_path); //deleting the tmp_path
+    src.on('end', function() { res.render('home'); });
+    src.on('error', function(err) { res.render('error'); });
+} else {
+      src.pipe(dest);
+      fs.unlink(tmp_path); //deleting the tmp_path
+      src.on('end', function () {res.render('home'); });
+      src.on('error', function (err) {res.render('error'); });
+  }
 
   var target_path = './uploads/images/' + req.file.originalname;
 
@@ -176,6 +196,28 @@ router.post('/save_pic', type, function (req,res) {
   });
 
 });
+// **********************
+// // configure upload middleware
+//         upload.configure({
+//             imageVersions: {
+//                 thumbnail: {
+//                     width: 80,
+//                     height: 80
+//                 }
+//             }
+//         });
+//
+// router.use('/upload', function (req, res, next) {
+//     // imageVersions are taken from upload.configure()
+//     upload.fileHandler({
+//         uploadDir: function () {
+//             return __dirname + '/uploads/' + req.sessionID
+//         },
+//         uploadUrl: function () {
+//             return '/uploads/' + req.sessionID
+//         }
+//     })(req, res, next);
+// });
 
 
 // ***********************************

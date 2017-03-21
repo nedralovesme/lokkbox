@@ -122,12 +122,13 @@ router.get('/logout', function(req, res){
 router.get('/users/:username', auth, function(req, res){
     var username = req.params.username;
     // console.log(username);
-    client.query("SELECT f_name, l_name FROM users WHERE username ='" + username + "'", function(err, results){
+    client.query("SELECT * FROM users WHERE username ='" + username + "'", function(err, results){
         if (err){
             throw err;
         };
-        console.log(results.rows[0]);
-        res.render('profile.hbs', {first: results.rows[0].f_name, last: results.rows[0].l_name})
+        var first = results.rows[0].f_name;
+        var last = results.rows[0].l_name;
+        res.render('profile.hbs', {first: first, last: last})
     });
 })
 

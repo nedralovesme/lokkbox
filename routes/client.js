@@ -115,7 +115,8 @@ router.post('/submit_login', function(req, res) {
                   fs.mkdirSync(userImgDir);
               } else if (!fs.existsSync(userVidDir)){
                   fs.mkdirSync(userVidDir);
-            } else{
+            }
+        } else{
                 console.log("WRONG PASSWORD");
                 res.redirect('/')
             }
@@ -275,6 +276,17 @@ router.post('/save_video', multer({
        console.log('finished the child process');
        fs.unlink(req.file.path); //deleting the temp file
        // req.app.io.emit('files', "finished the child process");
+   });
+
+   client.query("SELECT id FROM users WHERE username = '" + req.session.name + "'", function(err, result){
+       if (err){
+           throw err;
+       }
+       client.query("INSERT INTO file(path, type_id, user_id) VALUES ('./uploads/videos/" + req.session.user_id + "/" + req.file.originalname + ".mp4', 'vid', '" + req.session.user_id + "')", function(err, results){
+           if (err){
+               throw err;
+           }
+       });
    });
    // or if you want to send output elsewhere
    //child.stdout.pipe(dest);

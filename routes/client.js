@@ -6,7 +6,9 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('client-sessions');
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:rocket@localhost:5432/test';
+
+const config = require('../config.js');
+
 
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -16,7 +18,7 @@ router.use(session({
     secret: 'wooooooooo'
 }));
 
-var client = new pg.Client(connectionString);
+var client = new pg.Client(config.connectionString);
 client.connect();
 
 router.use(bodyParser.urlencoded({limit: '50mb', parameterLimit: 1000000}));
@@ -125,7 +127,7 @@ router.get('/users/:username', function(req, res){
             throw err;
         };
         console.log(results.rows[0]);
-        res.send(results.rows)
+        res.render('profile.hbs', {first: results.rows[0].f_name, last: results.rows[0].l_name})
     });
 })
 
@@ -141,21 +143,15 @@ router.get('/users/:username', function(req, res){
 // ************************
 // MULTER FILE UPLOAD
 // ************************
-<<<<<<< HEAD
-var upload = multer({ dest: '/Users/marvinmartinez/htdocs/lokkbox/uploads'});
-=======
+
 var upload = multer({ dest: './uploads/images'});
->>>>>>> 1bde8411caaae8243499028aad266c03e54a8e03
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
-<<<<<<< HEAD
-  var target_path = '/Users/marvinmartinez/htdocs/lokkbox/uploads/' + req.file.originalname;
-=======
+
   var target_path = './uploads/images/' + req.file.originalname;
->>>>>>> 1bde8411caaae8243499028aad266c03e54a8e03
 
 
   var src = fs.createReadStream(tmp_path);

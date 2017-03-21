@@ -6,6 +6,7 @@ function getExtension(filename) {
 function isImage(filename) {
     var ext = getExtension(filename);
     switch (ext.toLowerCase()) {
+        case 'jpeg':
         case 'jpg':
         case 'gif':
         case 'bmp':

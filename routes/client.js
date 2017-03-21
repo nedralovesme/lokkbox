@@ -4,6 +4,7 @@ const pg = require('pg');
 const multer = require('multer');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const rimraf = require('rimraf');
 // const upload = require('jquery-file-upload-middleware');
 const path = require('path');
 const session = require('client-sessions');
@@ -80,7 +81,7 @@ router.post('/submit_new_user', function(req, res) {
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
-            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday, c_date) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "', '" + c_date + "')", function(err, results) {
+            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "')", function(err, results) {
                 if (err){
                     throw err;
                 }
@@ -94,7 +95,7 @@ router.post('/submit_new_user', function(req, res) {
 router.post('/submit_login', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
-    client.query("SELECT password FROM users WHERE username ='" + username + "'", function(err, result) {
+    client.query("SELECT * FROM users WHERE username ='" + username + "'", function(err, result) {
         // console.log(result.rows);
         if (err) {
             throw err;
@@ -103,9 +104,15 @@ router.post('/submit_login', function(req, res) {
         bcrypt.compare(password, hash, function(err, doesMatch){
             if (doesMatch){
                 req.session.name = username;
+                req.session.user_id = result.rows[0].id;
                 console.log(req.session.name);
+                console.log(req.session.user_id);
                 console.log("user has logged in");
                 res.redirect('/dashboard')
+                var userDir = './uploads/images/' + req.session.user_id;
+                if (!fs.existsSync(userDir)){
+                  fs.mkdirSync(userDir);
+              }
             } else{
                 console.log("WRONG PASSWORD");
                 res.redirect('/')
@@ -133,6 +140,11 @@ router.get('/users/:username', auth, function(req, res){
     });
 })
 
+// router.get('/clear', function(req, res){
+//     rimraf('./uploads/images/temp', function () { console.log('done'); });
+//     res.redirect('/')
+// })
+
 
 // router.get('/user/register', (req, res) => {
 //     // if (req.session.token) {
@@ -145,8 +157,8 @@ router.get('/users/:username', auth, function(req, res){
 // // ************************
 // // MULTER FILE UPLOAD
 // // ************************
-var testing = 7777;
-var upload = multer({ dest: './uploads/images/' + testing});
+// var testing = 777;
+var upload = multer({ dest: './uploads/images/temp/'});
 
 var type = upload.single('upl');
 
@@ -154,11 +166,11 @@ router.post('/save_pic', type, function (req,res) {
     console.log(req);
   var tmp_path = req.file.path;
   // var target_path = './uploads/images/' + req.sessionID + '/' + req.file.originalname;
-  var target_path = './uploads/images/' + testing + '/' + req.file.originalname;
+  var target_path = './uploads/images/' + req.session.user_id + '/' + req.file.originalname;
 
   var src = fs.createReadStream(tmp_path);
   var dest = fs.createWriteStream(target_path);
-  var userDir = './uploads/images/' + testing;
+  var userDir = './uploads/images/' + req.session.user_id;
   if (!fs.existsSync(userDir)){
     fs.mkdirSync(userDir);
     src.pipe(dest);
@@ -172,23 +184,13 @@ router.post('/save_pic', type, function (req,res) {
       src.on('error', function (err) {res.render('error'); });
   }
 
-  var target_path = './uploads/images/' + req.file.originalname;
-
-
-  var src = fs.createReadStream(tmp_path);
-  var dest = fs.createWriteStream(target_path);
-  src.pipe(dest);
-  fs.unlink(tmp_path); //deleting the tmp_path
-  src.on('end', function() { res.render('home'); });
-  src.on('error', function(err) { res.render('error'); });
 
   var user_id;
   client.query("SELECT id FROM users WHERE username = '" + req.session.name + "'", function(err, result){
       if (err){
           throw err;
       }
-      user_id = result.rows[0].id;
-      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('" + target_path +"', 'pic', '" + user_id + "')", function(err, results){
+      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('" + target_path +"', 'pic', '" + req.session.user_id + "')", function(err, results){
           if (err){
               throw err;
           }

@@ -7,7 +7,9 @@ const bodyParser = require('body-parser');
 // const upload = require('jquery-file-upload-middleware');
 const path = require('path');
 const session = require('client-sessions');
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:rocket@localhost:5432/test';
+
+const config = require('../config.js');
+
 
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -17,8 +19,8 @@ router.use(session({
     secret: 'wooooooooo'
 }));
 
-var client = new pg.Client(connectionString);
-// client.connect();
+var client = new pg.Client(config.connectionString);
+client.connect();
 
 router.use(bodyParser.urlencoded({limit: '50mb', parameterLimit: 1000000}));
 router.use(bodyParser.json({limit: '50mb', parameterLimit: 1000000}));
@@ -74,7 +76,7 @@ router.post('/submit_new_user', function(req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var dob = req.body.month + "/" + req.body.day + "/" + req.body.year;
-    var c_date = new Date();
+    // var c_date = new Date();
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
@@ -118,6 +120,18 @@ router.get('/logout', function(req, res){
     res.redirect('/')
 })
 
+router.get('/users/:username', auth, function(req, res){
+    var username = req.params.username;
+    // console.log(username);
+    client.query("SELECT f_name, l_name FROM users WHERE username ='" + username + "'", function(err, results){
+        if (err){
+            throw err;
+        };
+        console.log(results.rows[0]);
+        res.render('profile.hbs', {first: results.rows[0].f_name, last: results.rows[0].l_name})
+    });
+})
+
 
 // router.get('/user/register', (req, res) => {
 //     // if (req.session.token) {
@@ -156,6 +170,30 @@ router.post('/save_pic', type, function (req,res) {
       src.on('end', function () {res.render('home'); });
       src.on('error', function (err) {res.render('error'); });
   }
+
+  var target_path = './uploads/images/' + req.file.originalname;
+
+
+  var src = fs.createReadStream(tmp_path);
+  var dest = fs.createWriteStream(target_path);
+  src.pipe(dest);
+  fs.unlink(tmp_path); //deleting the tmp_path
+  src.on('end', function() { res.render('home'); });
+  src.on('error', function(err) { res.render('error'); });
+
+  var user_id;
+  client.query("SELECT id FROM users WHERE username = '" + req.session.name + "'", function(err, result){
+      if (err){
+          throw err;
+      }
+      user_id = result.rows[0].id;
+      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('" + target_path +"', 'pic', '" + user_id + "')", function(err, results){
+          if (err){
+              throw err;
+          }
+      });
+  });
+
 });
 // **********************
 // // configure upload middleware

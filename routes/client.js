@@ -8,7 +8,6 @@ const rimraf = require('rimraf');
 // const upload = require('jquery-file-upload-middleware');
 const path = require('path');
 const session = require('client-sessions');
-
 const config = require('../config.js');
 
 
@@ -30,6 +29,7 @@ function auth (req, res, next){
     if (req.session.name) {
         next();
     } else {
+
         res.redirect('/join')
         console.log('Log in asshole');
     }
@@ -37,19 +37,19 @@ function auth (req, res, next){
 
 
 router.get('/', (req, res) => {
-    res.render('home', {session: req.session});
+    res.render('home');
 });
 
 router.get('/login', (req, res) => {
-    res.render('login', {session: req.session});
+    res.render('login');
 });
 
 router.get('/join', (req, res) => {
-    res.render('register', {session: req.session});
+    res.render('register');
 });
 
-router.get('/demo', (req, res) => {
-    res.render('register', {session: req.session});
+router.get('/about', (req, res) => {
+    res.render('about');
 });
 
 router.get('/dashboard', auth, (req, res) => {
@@ -143,20 +143,6 @@ router.get('/users/:username', auth, function(req, res){
     });
 })
 
-// router.get('/clear', function(req, res){
-//     rimraf('./uploads/images/temp', function () { console.log('done'); });
-//     res.redirect('/')
-// })
-
-
-// router.get('/user/register', (req, res) => {
-//     // if (req.session.token) {
-//     //     res.redirect('/user/account');
-//     // } else {
-//         res.render('register')};
-
-
-
 // // ************************
 // // MULTER FILE UPLOAD
 // // ************************
@@ -211,6 +197,24 @@ router.post('/save_pic', type, function (req,res) {
 //             return '/uploads/' + req.sessionID
 //         }
 //     })(req, res, next);
+// ************************
+// MULTER FILE UPLOAD
+// ************************
+// var upload = multer({ dest: '/Users/patrickbullion/htdocs/lokkbox/uploads'});
+//
+// var type = upload.single('upl');
+//
+// router.post('/save_pic', type, function (req,res) {
+//   var tmp_path = req.file.path;
+//   // var target_path = '/Users/patrickbullion/htdocs/lokkbox/uploads/' + req.file.originalname;
+//
+//   var src = fs.createReadStream(tmp_path);
+//   var dest = fs.createWriteStream(target_path);
+//   src.pipe(dest);
+//   fs.unlink(tmp_path); //deleting the tmp_path
+//   src.on('end', function() { res.render('home'); });
+//   src.on('error', function(err) { res.render('error'); });
+//
 // });
 
 

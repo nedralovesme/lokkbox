@@ -25,6 +25,8 @@ function isVideo(filename) {
         case 'mpg':
         case 'mp4':
         case 'mov':
+        case 'flv':
+        case 'webm':
             // etc
             return true;
     }

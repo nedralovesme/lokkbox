@@ -27,10 +27,19 @@ a {
 	font-weight: lighter;
 	}
 
-#placeholder {
+header {
+    text-align: center;
+    margin: 20px 0;
+}
+
+  .fullscreen-bg__video {
+      margin-top: -80;
+  }
+
+#title-head {
     position: absolute;
-    top: 20px;
-    margin-left: 20%;
+    top: 60px;
+    margin-left: 10vw;
     text-align: center;
     animation: fadein 4s;
     -moz-animation: fadein 4s; /* Firefox */
@@ -40,10 +49,12 @@ a {
 
 #content {
 	position: absolute;
-	top: 220px;
-	margin-left: 20%;
+	top: 260px;
+	margin-left: 10vw;
 	margin-top: 0;
+    font-weight: lighter;
 	opacity: 1;
+    text-align: center;
 	animation: fadein 6s;
     -moz-animation: fadein 6s; /* Firefox */
     -webkit-animation: fadein 6s; /* Safari and Chrome */
@@ -75,6 +86,9 @@ a {
 
 
 #pageonehidden {
+        position: absolute;
+        top: 10px;
+        z-index: 10;
 		opacity: 0;
 		transition: opacity 2s ease-in-out;
 		-moz-transition: opacity 2s ease-in-out;
@@ -414,6 +428,31 @@ input.button{
     color:rgba(255,255,255,.85);
     font-size:96px;
 }
+
+// =================================
+//         S N E K  C O D E
+// =================================
+
+#canvas {
+    border: $obsidian 1px solid;
+    margin-top: 10px;
+    // animation: fadein 14s;
+    // -moz-animation: fadein 14s; /* Firefox */
+    // -webkit-animation: fadein 14s; /* Safari and Chrome */
+    animation: 3s fadeIn;
+    animation-fill-mode: forwards;
+
+    visibility: hidden;
+}
+@keyframes fadeIn {
+  89% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
 
 
 @media (max-width: 767px) {

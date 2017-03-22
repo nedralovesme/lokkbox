@@ -29,7 +29,6 @@ function auth (req, res, next){
     if (req.session.name) {
         next();
     } else {
-
         res.redirect('/join')
         console.log('Log in asshole');
     }
@@ -53,7 +52,14 @@ router.get('/about', (req, res) => {
 });
 
 router.get('/dashboard', auth, (req, res) => {
-    res.render('dashboard', {session: req.session});
+    client.query("SELECT * FROM file WHERE user_id = '" + req.session.user_id + "'", function(err, results){
+        if (err){
+            throw err;
+        }
+        console.log(results.rows[0].path);
+        var img = results.rows[1].path;
+        res.render('dashboard', {session: req.session, img: img});
+    })
 });
 
 router.get('/userCollections', (req, res) => {
@@ -77,7 +83,6 @@ router.post('/submit_new_user', function(req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var dob = req.body.month + "/" + req.body.day + "/" + req.body.year;
-    // var c_date = new Date();
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
@@ -146,17 +151,17 @@ router.get('/users/:username', auth, function(req, res){
 // // ************************
 // // MULTER FILE UPLOAD
 // // ************************
-var upload = multer({ dest: './uploads/images/temp/'});
+var upload = multer({ dest: './public/uploads/images/temp/'});
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
-  var target_path = './uploads/images/' + req.session.user_id + '/' + req.file.originalname;
+  var target_path = './public/uploads/images/' + req.session.user_id + '/' + req.file.originalname;
 
   var src = fs.createReadStream(tmp_path);
   var dest = fs.createWriteStream(target_path);
-  var userDir = './uploads/images/' + req.session.user_id;
+  var userDir = './public/uploads/images/' + req.session.user_id;
   src.pipe(dest);
   fs.unlink(tmp_path); //deleting the tmp_path
   src.on('end', function () {res.render('home'); });
@@ -222,7 +227,7 @@ router.post('/save_pic', type, function (req,res) {
 // VIDEO CONVERTER (TO .MP4)
 // ***********************************
 router.post('/save_video', multer({
-    dest: './uploads/videos/'
+    dest: './public/uploads/videos/'
 }).single('upl'), function(req, res) {
 
    // req.app.io.on('connection', function(socket) {

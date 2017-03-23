@@ -117,8 +117,8 @@ router.post('/submit_login', function(req, res) {
                 console.log(req.session.user_id);
                 console.log("user has logged in");
                 res.redirect('/dashboard')
-                var userImgDir = './uploads/images/' + req.session.user_id;
-                var userVidDir = './uploads/videos/' + req.session.user_id;
+                var userImgDir = './public/uploads/images/' + req.session.user_id;
+                var userVidDir = './public/uploads/videos/' + req.session.user_id;
                 if (!fs.existsSync(userImgDir)){
                   fs.mkdirSync(userImgDir);
               } else if (!fs.existsSync(userVidDir)){

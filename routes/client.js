@@ -121,7 +121,8 @@ router.post('/submit_login', function(req, res) {
                 var userVidDir = './public/uploads/videos/' + req.session.user_id;
                 if (!fs.existsSync(userImgDir)){
                   fs.mkdirSync(userImgDir);
-              } else if (!fs.existsSync(userVidDir)){
+              }
+               if (!fs.existsSync(userVidDir)){
                   fs.mkdirSync(userVidDir);
             }
         } else{
@@ -169,7 +170,7 @@ router.post('/save_pic', type, function (req,res) {
   var userDir = pub + '/uploads/images/' + req.session.user_id;
   src.pipe(dest);
   fs.unlink(tmp_path); //deleting the tmp_path
-  src.on('end', function () {res.render('home'); });
+  src.on('end', function () {res.redirect('/dashboard'); });
   src.on('error', function (err) {res.render('error'); });
 
 
@@ -183,8 +184,8 @@ router.post('/save_pic', type, function (req,res) {
               throw err;
           }
       });
+    //   res.redirect('/dashboard')
   });
-  res.redirect('/dashboard')
 });
 // **********************
 // // configure upload middleware

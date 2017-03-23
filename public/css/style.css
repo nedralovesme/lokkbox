@@ -261,7 +261,7 @@ img {
   color: #161616; }
   #site-wrap h1 {
     color: #161616;
-    font-size: 1.2em; }
+    font-size: 1.6em; }
   #site-wrap h2 {
     font-size: 1em;
     color: #161616; }
@@ -325,7 +325,6 @@ img {
     text-decoration: none; }
 
 .img-info {
-  position: absolute;
   color: #161616; }
 
 .box {

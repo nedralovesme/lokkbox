@@ -65,6 +65,14 @@ router.get('/dashboard', auth, (req, res) => {
     })
 });
 
+router.get('/friends', auth, (req, res) => {
+    res.render('friends', {session: req.session});
+});
+
+router.get('/settings', auth, (req, res) => {
+    res.render('settings', {session: req.session});
+});
+
 router.get('/userCollections', (req, res) => {
     res.render('userCollections', {session: req.session});
 });

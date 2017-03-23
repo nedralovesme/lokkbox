@@ -1,5 +1,5 @@
 @import "colors";
-
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css');
 
 // ==============================
 //         MAIN PAGE CHAOS
@@ -74,7 +74,8 @@ header {
 	color: #fff;
 	font-weight: bold;
 	font-size: 2em;
-	margin-left: 10px;
+	// margin-left: 10px;
+    font-family: 'Open Sans Condensed', sans-serif;
 	border-bottom: 1px solid #ddd;
 }
 
@@ -110,7 +111,7 @@ header {
 
 
 #login {
-	margin-top: 15%;
+	margin-top: 5vw;
 	margin-left: 35%;
 	position: fixed;
 }
@@ -286,6 +287,8 @@ input.button{
 
 #site-wrap {
     min-width: 100%;
+    font-family: 'Open Sans Condensed', sans-serif;
+    // display: flex;
     min-height: 100%;
     background-color: $softpink;
     position: absolute;
@@ -294,6 +297,7 @@ input.button{
     left: 0;
     z-index: 1;
     margin-top: 3.2em;
+    color: $obsidian;
 
     h1 {
         color: $obsidian;
@@ -334,7 +338,7 @@ input.button{
 
 .nav-trigger:checked ~ #site-wrap {
     left: 200px;
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
+    // box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
 }
 
 .nav-trigger + label, #site-wrap {
@@ -369,10 +373,10 @@ input.button{
     text-align: center;
 }
 #collections {
-    margin-left: 100px;
+    margin-left: 10vw;
     // margin-left: auto;
-    margin-right: auto;
-    display: inline-flex;
+    // margin-right: auto;
+    // display: inline-flex;
 
 
     img {
@@ -427,6 +431,65 @@ input.button{
     font-weight:900;
     color:rgba(255,255,255,.85);
     font-size:96px;
+}
+
+// ==========================================
+//         U S E R  C O L L E C T I O N
+// ==========================================
+
+#user-collections {
+    padding-left: 15vw;
+    padding-top: 2vw;
+}
+
+
+// =================================
+//         S E T T I N G S
+// =================================
+.update-form-content{
+    padding-left: 10vw;
+    padding-top: 2vw;
+}
+
+// =================================
+//           F R I E N D S
+// =================================
+.friend-list {
+        li {
+            list-style: none;
+        }
+}
+
+.friend {
+    // text-align: center;
+    padding-left: 30px;
+
+    .img-info {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-left: 10px;
+    }
+
+    img {
+        border-radius: 50px 50px 50px 50px;
+        border: 1px solid $rollingblackout;
+    }
+
+    a {
+        color: $obsidian;
+    }
+}
+
+#add-friend {
+    padding-right: 80px;
+    }
+
+// #add-friend-form {
+//     background-color: $rollingblackout;
+// }
+
+.fa {
+    padding: 10px;
 }
 
 // =================================

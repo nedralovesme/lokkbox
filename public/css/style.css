@@ -1,3 +1,4 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css");
 body {
   font-family: 'Open Sans Condensed', sans-serif;
   background-color: #000;
@@ -59,7 +60,7 @@ a:hover {
   color: #fff;
   font-weight: bold;
   font-size: 2em;
-  margin-left: 10px;
+  font-family: 'Open Sans Condensed', sans-serif;
   border-bottom: 1px solid #ddd; }
 
 #navbar
@@ -86,7 +87,7 @@ a {
   opacity: 1; }
 
 #login {
-  margin-top: 15%;
+  margin-top: 5vw;
   margin-left: 35%;
   position: fixed; }
 
@@ -244,14 +245,16 @@ img {
 
 #site-wrap {
   min-width: 100%;
+  font-family: 'Open Sans Condensed', sans-serif;
   min-height: 100%;
-  background-color: #fcf5f6;
+  background-color: #fcfcfc;
   position: absolute;
   top: 0;
   padding-bottom: 50px;
   left: 0;
   z-index: 1;
-  margin-top: 3.2em; }
+  margin-top: 3.2em;
+  color: #161616; }
   #site-wrap h1 {
     color: #161616;
     font-size: 1.2em; }
@@ -280,8 +283,7 @@ img {
   left: 215px; }
 
 .nav-trigger:checked ~ #site-wrap {
-  left: 200px;
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); }
+  left: 200px; }
 
 .nav-trigger + label, #site-wrap {
   transition: left 0.3s; }
@@ -309,9 +311,7 @@ img {
   text-align: center; }
 
 #collections {
-  margin-left: 100px;
-  margin-right: auto;
-  display: inline-flex; }
+  margin-left: 10vw; }
   #collections img {
     border: 1px solid #222;
     max-height: 200px;
@@ -352,6 +352,35 @@ img {
   font-weight: 900;
   color: rgba(255, 255, 255, 0.85);
   font-size: 96px; }
+
+#user-collections {
+  padding-left: 15vw;
+  padding-top: 2vw; }
+
+.update-form-content {
+  padding-left: 10vw;
+  padding-top: 2vw; }
+
+.friend-list li {
+  list-style: none; }
+
+.friend {
+  padding-left: 30px; }
+  .friend .img-info {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10px; }
+  .friend img {
+    border-radius: 50px 50px 50px 50px;
+    border: 1px solid #222; }
+  .friend a {
+    color: #161616; }
+
+#add-friend {
+  padding-right: 80px; }
+
+.fa {
+  padding: 10px; }
 
 #canvas {
   border: #161616 1px solid;

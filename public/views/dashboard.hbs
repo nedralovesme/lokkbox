@@ -1,43 +1,19 @@
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-<!-- <div id="navbar"><a href="/">lokkbox</a><span id="welcome">
-<h3><a href="/logout">Logout</a></h3>
-</span></div>
-<div id="navigation">
-<img src="../img/photo3.jpeg" width="100 x 100">
-<ul>
-<li><a href="#">Your Boxes</a></li>
-<li><a href="/userCollections">Your Collections</a></li>
-<li><a href=#>Friends</a></li>
-<li><a href=#>Favorites</a></li>
-<li><a href="/settings">Settings</a></li>
-</ul>
-</div>
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label class="menu-hamb" for="nav-trigger"></label> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <div id="site-wrap">
         <br>
-        <div id="collection-header">
-        <h1>Newest Collections from Friends</h1></div>
-        <span id="collections">
-            <div class="box">
-            <a href="#"><img src="../img/photo4.jpeg" width="400"></a>
-                <br>
-                <div class="img-info">@bunnybunny posted <a href="#">"Rooftop Day Drinks"</a>
-                <br>
+        <header>
+        <h1>Your Latest Uploads</h1></header>
+        <div id="collections">
+            <div class="content-row col-md-12">
+                {{# if images.length}}
+                {{# each images}}
+                <div class="col-md-4">
+                    <a href="#"><img src={{this.path}} width="400"></a>
+                    <br>
+                    <div class="img-info">@lillyallday posted <a href="#">"Breakfast in Bed"</a></div>
                 </div>
+                {{/each}}
+                {{/if}}
             </div>
-            {{# if images.length}}
-            {{# each images}}
-            <div class="box">
-                <a href="#"><img src={{this.path}} width="400"></a>
-                <br>
-                <div class="img-info">@lillyallday posted <a href="#">"Breakfast in Bed"</a></div>
-            </div>
-            {{/each}}
-            {{/if}}
-            <div class="box">
-                <a href="#"><img src="../img/photo5.jpeg" width="400"></a>
-                <div class="img-info">@rockrock posted <a href="#">"New Camera Bihhh"</a></div>
-            </div>
-        </span>
+        </div>
 </div>

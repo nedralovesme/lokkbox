@@ -1,18 +1,23 @@
 <div id="site-wrap">
-<form method="post" enctype="multipart/form-data">
-    <label>Type:*</label>
-    <label for="type-1">
-        <input type="radio" checked="checked" value="1" id="type-1" name="type">Image
-    </label>
-    <label for="type-2">
-        <input type="radio" value="2" id="type-2" name="type">Video
-    </label>
-    <br />
-    <label class="itemdetailfloatL required" for="file">File:*</label>
-    <input type="hidden" id="MAX_FILE_SIZE" value="8388608" name="MAX_FILE_SIZE">
-    <input type="file" tabindex="5" class="text-size text" id="file" name="upl">
-    <br/>
-    <input type="submit" value="Upload File" id="submit" name="submit">
-</form>
+    <header>
+        Upload a File
+    </header>
+    <div id="uploader" class="content col-md-offset-2">
+        <form method="post" enctype="multipart/form-data">
+            <label>Type:*</label>
+            <label for="type-1">
+                <input type="radio" checked="checked" value="1" id="type-1" name="type">Image
+            </label>
+            <label for="type-2">
+                <input type="radio" value="2" id="type-2" name="type">Video
+            </label>
+            <br />
+            <label class="itemdetailfloatL required" for="file">File:*</label>
+            <input type="hidden" id="MAX_FILE_SIZE" value="8388608" name="MAX_FILE_SIZE">
+            <input type="file" tabindex="5" class="text-size text" id="file" name="upl">
+            <br/>
+            <input type="submit" value="Upload File" id="submit" name="submit">
+        </form>
+    </div>
 <script src="../javascript/upload.js"></script>
 </div>

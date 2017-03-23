@@ -46,3 +46,9 @@ create table "collection_user"(
     "userId" integer not null,
     "typeId" text not null
 );
+
+drop table if exists "user_friends";
+create table "user_friends"(
+    "user_id" integer not null primary key,
+    "friend_id" integer not null
+);

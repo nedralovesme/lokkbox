@@ -52,13 +52,16 @@ router.get('/about', (req, res) => {
 });
 
 router.get('/dashboard', auth, (req, res) => {
-    client.query("SELECT * FROM file WHERE user_id = '" + req.session.user_id + "'", function(err, results){
+    var images = [];
+    client.query("SELECT path FROM file WHERE user_id = '" + req.session.user_id + "'", function(err, results){
         if (err){
             throw err;
         }
-        console.log(results.rows[0].path);
-        var img = results.rows[1].path;
-        res.render('dashboard', {session: req.session, img: img});
+        for (var i = 0; i < results.rows.length; i++){
+            images.push(results.rows[i]);
+        }
+        console.log(images);
+        res.render('dashboard', {session: req.session, images: images});
     })
 });
 
@@ -151,17 +154,19 @@ router.get('/users/:username', auth, function(req, res){
 // // ************************
 // // MULTER FILE UPLOAD
 // // ************************
-var upload = multer({ dest: './public/uploads/images/temp/'});
+var pub = './public'
+var upload = multer({ dest: pub + '/uploads/images/temp/'});
 
 var type = upload.single('upl');
 
 router.post('/save_pic', type, function (req,res) {
   var tmp_path = req.file.path;
-  var target_path = './public/uploads/images/' + req.session.user_id + '/' + req.file.originalname;
+  var ret_path = '/uploads/images/' + req.session.user_id + '/' + req.file.originalname;
+  var target_path = pub + ret_path;
 
   var src = fs.createReadStream(tmp_path);
   var dest = fs.createWriteStream(target_path);
-  var userDir = './public/uploads/images/' + req.session.user_id;
+  var userDir = pub + '/uploads/images/' + req.session.user_id;
   src.pipe(dest);
   fs.unlink(tmp_path); //deleting the tmp_path
   src.on('end', function () {res.render('home'); });
@@ -173,13 +178,13 @@ router.post('/save_pic', type, function (req,res) {
       if (err){
           throw err;
       }
-      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('" + target_path +"', 'pic', '" + req.session.user_id + "')", function(err, results){
+      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('." + ret_path +"', 'pic', '" + req.session.user_id + "')", function(err, results){
           if (err){
               throw err;
           }
       });
   });
-
+  res.redirect('/dashboard')
 });
 // **********************
 // // configure upload middleware

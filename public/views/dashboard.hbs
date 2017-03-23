@@ -26,11 +26,15 @@
                 <br>
                 </div>
             </div>
+            {{# if images.length}}
+            {{# each images}}
             <div class="box">
-            <a href="#"><img src={{img}} width="400"></a>
+                <a href="#"><img src={{this.path}} width="400"></a>
                 <br>
                 <div class="img-info">@lillyallday posted <a href="#">"Breakfast in Bed"</a></div>
             </div>
+            {{/each}}
+            {{/if}}
             <div class="box">
                 <a href="#"><img src="../img/photo5.jpeg" width="400"></a>
                 <div class="img-info">@rockrock posted <a href="#">"New Camera Bihhh"</a></div>

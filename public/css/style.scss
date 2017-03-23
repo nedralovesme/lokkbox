@@ -85,6 +85,7 @@ header {
 	a {
 		text-decoration: none;
 		color: #eee;
+        padding-left: 10px;
 	}
 
 
@@ -267,12 +268,16 @@ input.button{
     background: $onyx;
     width: 100%;
     height: 100%;
-    position: fixed;
+    position: absolute;
     top: 50;
     right: 0;
     bottom: 0;
     left: 0;
     z-index: 0;
+
+    a {
+        color: $snow;
+    }
 }
 
 #navigation
@@ -303,7 +308,7 @@ input.button{
 
     h1 {
         color: $obsidian;
-        font-size: 1.2em;
+        font-size: 1.6em;
     }
 
     h2 {
@@ -397,7 +402,6 @@ input.button{
 
 
 .img-info {
-    position: absolute;
     color: $obsidian;
 }
 
@@ -493,6 +497,17 @@ input.button{
 .fa {
     padding: 10px;
 }
+
+// =================================
+//         U P L O A D E R
+// =================================
+#uploader {
+    input {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 
 // =================================
 //         S N E K  C O D E

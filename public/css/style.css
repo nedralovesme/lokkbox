@@ -67,7 +67,8 @@ a:hover {
 #nav-bar
 a {
   text-decoration: none;
-  color: #eee; }
+  color: #eee;
+  padding-left: 10px; }
 
 #pageonehidden {
   position: absolute;
@@ -227,12 +228,14 @@ input.button {
   background: #1b1b1b;
   width: 100%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   top: 50;
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 0; }
+  #navigation a {
+    color: #eee; }
 
 #navigation
 li {
@@ -258,7 +261,7 @@ img {
   color: #161616; }
   #site-wrap h1 {
     color: #161616;
-    font-size: 1.2em; }
+    font-size: 1.6em; }
   #site-wrap h2 {
     font-size: 1em;
     color: #161616; }
@@ -322,7 +325,6 @@ img {
     text-decoration: none; }
 
 .img-info {
-  position: absolute;
   color: #161616; }
 
 .box {
@@ -382,6 +384,10 @@ img {
 
 .fa {
   padding: 10px; }
+
+#uploader input {
+  padding-left: 10px;
+  padding-right: 10px; }
 
 #canvas {
   border: #161616 1px solid;

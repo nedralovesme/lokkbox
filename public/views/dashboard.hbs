@@ -10,16 +10,14 @@
                     <div class="col-md-4">
                         <video width="320" height="240" controls style="border=1px"><source src="{{this.path}}"  type="video/mp4"></video>~~~{{this.path}}
                         <br>
-                        <div class="img-info">{{users.f_name}} posted a new</div>
+                        <div class="img-info">{{users.f_name}} posted a new {{this.type_id}}</div>
                     </div>
                 {{else}}
-                    <div class="col-md-4">
-                        <a href="#"><img src={{this.path}} width="400">{{this.type_id}}</a>
-                        <br>
-                        <div class="img-info">{{users.f_name}} posted a new photo</div>
-                    </div>
+                <div class="col-md-4">
+                    <a href="#"><img src={{this.path}} width="400"></a>
+                    <br>
+                </div>
                 {{/if}}
-
                 {{/each}}
             </div>
         </div>

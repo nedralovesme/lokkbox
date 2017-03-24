@@ -5,15 +5,22 @@
         <h1>Your Latest Uploads</h1></header>
         <div id="collections">
             <div class="content-row col-md-12">
-                {{# if images.length}}
                 {{# each images}}
-                <div class="col-md-4">
-                    <a href="#"><img src={{this.path}} width="400"></a>
-                    <br>
-                    <div class="img-info">{{users.f_name}} posted a new photo</div>
-                </div>
-                {{/each}}
+                {{# if this.isVid}}
+                    <div class="col-md-4">
+                        <video width="320" height="240" controls style="border=1px"><source src="{{this.path}}"  type="video/mp4"></video>~~~{{this.path}}
+                        <br>
+                        <div class="img-info">{{users.f_name}} posted a new</div>
+                    </div>
+                {{else}}
+                    <div class="col-md-4">
+                        <a href="#"><img src={{this.path}} width="400">{{this.type_id}}</a>
+                        <br>
+                        <div class="img-info">{{users.f_name}} posted a new photo</div>
+                    </div>
                 {{/if}}
+
+                {{/each}}
             </div>
         </div>
 </div>

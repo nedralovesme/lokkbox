@@ -53,12 +53,19 @@ router.get('/about', (req, res) => {
 
 router.get('/dashboard', auth, (req, res) => {
     var images = [];
-    client.query("SELECT path FROM file WHERE user_id = '" + req.session.user_id + "'", function(err, results){
+    client.query("SELECT * FROM file WHERE user_id = '" + req.session.user_id + "'", function(err, results){
         if (err){
             throw err;
         }
         for (var i = 0; i < results.rows.length; i++){
-            images.push(results.rows[i]);
+            console.log("results");
+            var file = {path:results.rows[i].path};
+            if(results.rows[i].type_id=="vid"){
+                file.isVid=true;
+            } else {
+                file.isVid=false;
+            }
+            images.push(file);
         }
         console.log(images);
         res.render('dashboard', {session: req.session, images: images});
@@ -70,7 +77,7 @@ router.get('/friends', auth, (req, res) => {
 });
 
 router.get('/settings', auth, (req, res) => {
-    res.render('settings', {session: req.session});
+    res.render('account', {session: req.session});
 });
 
 router.get('/userCollections', (req, res) => {

@@ -318,7 +318,6 @@ img {
   margin-left: 10vw; }
   #collections img {
     border: 1px solid #222;
-    max-height: 200px;
     max-width: 300px;
     text-align: center; }
   #collections a {
@@ -330,23 +329,6 @@ img {
 .box {
   padding: 10px; }
 
-#video-box {
-  border: 1px solid #222;
-  background: url("../img/photo2.jpeg");
-  background-size: cover;
-  height: 200px;
-  padding: 0;
-  width: 300px;
-  /* border-radius:5px; */
-  overflow: hidden; }
-
-#overlay {
-  background: rgba(0, 0, 0, 0.75);
-  text-align: center;
-  padding: 45px 0 66px 0;
-  opacity: 0;
-  -webkit-transition: opacity .25s ease; }
-
 #video-box:hover #overlay {
   opacity: 1; }
 
@@ -356,9 +338,82 @@ img {
   color: rgba(255, 255, 255, 0.85);
   font-size: 96px; }
 
+#messages-list li {
+  list-style: none; }
+
+.bar {
+  height: 18px;
+  background: green; }
+
 #user-collections {
   padding-left: 15vw;
   padding-top: 2vw; }
+
+#content-row div {
+  padding-bottom: 40px; }
+
+#overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: #000;
+  opacity: 0.7;
+  filter: alpha(opacity=70) !important;
+  display: none;
+  z-index: 100; }
+
+#overlayContent {
+  position: fixed;
+  width: 100%;
+  top: 100px;
+  text-align: center;
+  display: none;
+  overflow: hidden;
+  z-index: 100; }
+
+#contentGallery {
+  margin: 0px auto; }
+
+#cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: none; }
+
+.cancel {
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 2px;
+  background: whitesmoke;
+  color: black;
+  height: 30px;
+  width: 35px;
+  font-size: 30px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold; }
+
+#imgBig {
+  height: 380px;
+  width: 340px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  display: none;
+  background: url("{{this.path}}") no-repeat;
+  border: 5px solid #cccccc;
+  border-radius: 10px; }
+
+#imgSmall:target, #imgSmall:target + #cover {
+  display: block;
+  opacity: 2; }
 
 .update-form-content {
   padding-left: 10vw;

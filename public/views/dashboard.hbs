@@ -10,9 +10,27 @@
                 <div class="col-md-4">
                     <a href="#"><img src={{this.path}} width="400"></a>
                     <br>
+                    <button type="button" name="button" id="remove-photo{{this.id}}">Delete</button>
                 </div>
                 {{/each}}
                 {{/if}}
             </div>
         </div>
 </div>
+
+{{# if images.length}}
+{{# each images}}
+<script>
+    $("#remove-photo{{this.id}}").click(function(){
+        var image = {{this.id}}
+        console.log(image);
+        $.ajax({
+            url: "/remove_image",
+            type: "post",
+            dataType: "json",
+            data: {image: image}
+        });
+    });
+</script>
+{{/each}}
+{{/if}}

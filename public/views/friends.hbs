@@ -1,15 +1,52 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
 
 <div id="site-wrap">
     <header>
         <h1>Your Friends</h1>
-    <form id="add-friend-form">
-        <input id="add-friend" type="text" minlength="5" placeholder="Add Friend" /><span class="fa fa-plus-circle" aria-hidden="true"></span></header>
-    <ul class="friend-list">
-    <li class="friend"><span class="fa fa-minus-circle" aria-hidden="true"></span><img src="../img/photo3.jpeg" width="100 x 100">     <span class="img-info"><a href="#">@lillyallday</a></span></li>
+    <form id="add-friend-form" method="POST" action="/add_friend">
+        <input name="username" id="add-friend"  type="text" minlength="5" placeholder="Add Friend" />
+        <input type="submit" name="submit_user" value="Add">
+        <span class="fa fa-plus-circle" aria-hidden="true"></span></header>
+    </form>
+    <div>
+        <ul class="friend-list">
+        {{# if friends.length}}
+        {{# each friends}}
+    <!-- <li class="friend"><span class="fa fa-minus-circle" aria-hidden="true"></span><img src="../img/photo3.jpeg" width="100 x 100">     <span class="img-info"><a href="#">@lillyallday</a></span></li> -->
 
-    <li class="friend"><span class="fa fa-minus-circle" aria-hidden="true"></span><img src="http://placehold.it/100x100"><span class="img-info"><a href="#">@rockrock</a></span></li>
+    <li class="friend"><span class="fa fa-minus-circle" aria-hidden="true"></span>
+        <button type="button" name="button" id="remove-friend{{this.friend_id}}">Delete</button>
+        <!-- <img src="http://placehold.it/100x100"><span class="img-info"> -->
+            <a id="{{this.friend_id}}" href="#">{{this.friend_name}}</a></span></li>
+            <br>
 
-    <div class="friend">{{this.friends.length}}</div>
+<!-- <div class="friend">
+
+    <div class="col-md-4">
+        <br>
+    </div> -->
+
+{{/each}}
+{{/if}}
     </ul>
 </div>
+</div>
+
+{{# if friends.length}}
+{{# each friends}}
+<script>
+    $("#remove-friend{{this.friend_id}}").click(function(){
+        var friend = $("#{{this.friend_id}}").text();
+        console.log(friend);
+        $.ajax({
+            url: "/remove_friend",
+            type: "post",
+            dataType: "json",
+            data: {friend: friend}
+        });
+    });
+</script>
+{{/each}}
+{{/if}}

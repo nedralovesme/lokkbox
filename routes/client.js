@@ -53,7 +53,7 @@ router.get('/about', (req, res) => {
 
 router.get('/dashboard', auth, (req, res) => {
     var images = [];
-    client.query("SELECT path FROM file WHERE user_id = '" + req.session.user_id + "'", function(err, results){
+    client.query("SELECT * FROM file WHERE user_id = '" + req.session.user_id + "'", function(err, results){
         if (err){
             throw err;
         }
@@ -65,9 +65,9 @@ router.get('/dashboard', auth, (req, res) => {
     })
 });
 
-router.get('/friends', auth, (req, res) => {
-    res.render('friends', {session: req.session});
-});
+// router.get('/friends', auth, (req, res) => {
+//     res.render('friends', {session: req.session});
+// });
 
 router.get('/settings', auth, (req, res) => {
     res.render('settings', {session: req.session});
@@ -84,6 +84,59 @@ router.get('/fileuploader', (req, res) => {
 router.get('/fileuploaderblue', (req, res) => {
     res.render('fileuploaderblue', {session: req.session});
 });
+
+router.post('/remove_image', function(req, res){
+    console.log(req.body.image);
+    var image = req.body.image;
+    client.query("DELETE FROM file WHERE id ="+ image +"", function(err){
+        if (err){
+            throw err;
+        }
+    })
+});
+
+router.post('/add_friend', auth, function(req, res){
+    console.log(req.body.username);
+    var username = req.body.username;
+    client.query("SELECT * FROM users WHERE username = '" + username + "'", function(err, results){
+        if (err){
+            throw err;
+        }
+        var friend_id = results.rows[0].id;
+        var friend_name = results.rows[0].username;
+        client.query("INSERT INTO user_friends(user_id, friend_id, friend_name) VALUES ('"+req.session.user_id+"', '"+friend_id+"','"+friend_name+"')", function(err, res){
+            if (err){
+                throw err;
+            }
+        });
+        res.redirect('/friends')
+    });
+});
+
+router.post('/remove_friend', function(req, res){
+    console.log(req.body.friend);
+    var friend = req.body.friend;
+    client.query("DELETE FROM user_friends WHERE friend_name ='"+friend+"'", function(err){
+        if (err){
+            throw err;
+        }
+        res.redirect('/friends')
+    });
+});
+
+router.get('/friends', function(req, res){
+    var friends = [];
+    client.query("SELECT * FROM user_friends WHERE user_id = '" + req.session.user_id + "'", function(err, results){
+        if (err){
+            throw err;
+        }
+        for (var i = 0; i < results.rows.length; i++){
+            friends.push(results.rows[i]);
+        }
+        // console.log(friends);
+        res.render('friends', {session: req.session, friends: friends});
+    })
+})
 
 
 router.post('/submit_new_user', function(req, res) {

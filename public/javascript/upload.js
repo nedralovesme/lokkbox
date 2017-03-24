@@ -59,10 +59,16 @@ $(function() {
                     contentType: false,
                     processData: false,
                     url: '/save_pic',
-                    success: function(data) {
-                        console.log(JSON.stringify(data));
-                        console.log("SUCCESS");
+                    success:(res) => {
+                        showMessage((res.message
+                                ? res.message : "Well done! Photo uploaded successfully."))
+                    },
+                    error: (err) => {
+                            console.log(err);
+                            showMessage((err.message
+                                ? err.message: "Something went wrong"));
                     }
+
                 });
         } else if (!imageChosen && isVideo(file.val())) {
             console.log('going to send the video file on through');
@@ -85,3 +91,9 @@ $(function() {
         };
     });
 });
+
+const showMessage = (msg) => {
+    const listItem = $("li#alert");
+    $("div.alert").show();
+    listItem.text(msg);
+};

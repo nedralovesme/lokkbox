@@ -29,7 +29,7 @@ function auth (req, res, next){
     if (req.session.name) {
         next();
     } else {
-        res.redirect('/join')
+        res.redirect('/join');
         console.log('Log in asshole');
     }
 }
@@ -99,7 +99,7 @@ router.post('/remove_image', function(req, res){
         if (err){
             throw err;
         }
-    })
+    });
 });
 
 router.post('/add_friend', auth, function(req, res){
@@ -111,12 +111,13 @@ router.post('/add_friend', auth, function(req, res){
         }
         var friend_id = results.rows[0].id;
         var friend_name = results.rows[0].username;
-        client.query("INSERT INTO user_friends(user_id, friend_id, friend_name) VALUES ('"+req.session.user_id+"', '"+friend_id+"','"+friend_name+"')", function(err, res){
+        client.query("INSERT INTO user_friends(user_id, friend_id, friend_name) VALUES " +
+            "('"+req.session.user_id+"', '"+friend_id+"','"+friend_name+"')", function(err, res){
             if (err){
                 throw err;
             }
         });
-        res.redirect('/friends')
+        res.redirect('/friends');
     });
 });
 
@@ -127,7 +128,7 @@ router.post('/remove_friend', function(req, res){
         if (err){
             throw err;
         }
-        res.redirect('/friends')
+        res.redirect('/friends');
     });
 });
 
@@ -157,7 +158,9 @@ router.post('/submit_new_user', function(req, res) {
 
     bcrypt.genSalt(saltRounds, function(err, salt){
         bcrypt.hash(password, salt, function(err, hash){
-            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday) VALUES ('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "')", function(err, results) {
+            client.query("INSERT INTO users(f_name, l_name, username, email, password, birthday) VALUES " +
+                "('" + f_name + "', '" + l_name + "', '" + username + "', '" + email + "', '" + hash + "', '" + dob + "')",
+                function(err, results) {
                 if (err){
                     throw err;
                 }
@@ -247,7 +250,8 @@ router.post('/save_pic', type, function (req,res) {
       if (err){
           throw err;
       }
-      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('." + ret_path +"', 'pic', '" + req.session.user_id + "')", function(err, results){
+      client.query("INSERT INTO file(path, type_id, user_id) VALUES ('." + ret_path +"', 'pic', '" + req.session.user_id + "')",
+          function(err, results){
           if (err){
               throw err;
           }
@@ -365,7 +369,9 @@ router.post('/save_video', multer({
        if (err){
            throw err;
        }
-       client.query("INSERT INTO file(path, type_id, user_id) VALUES ('./uploads/videos/" + req.session.user_id + "/" + req.file.originalname + ".mp4', 'vid', '" + req.session.user_id + "')", function(err, results){
+       client.query("INSERT INTO file(path, type_id, user_id) VALUES " +
+           "('./uploads/videos/" + req.session.user_id + "/" + req.file.originalname + ".mp4', 'vid', '" + req.session.user_id + "')",
+           function(err, results){
            if (err){
                throw err;
            }
